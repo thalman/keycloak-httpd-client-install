@@ -10,7 +10,7 @@ Summary:        %{summary}
 
 License:        MIT
 URL:            http://pypi.python.org/pypi/%{srcname}
-Source0:        https://github.com/jdennis/python-keycloak/archive/%{git_tag}.tar.gz#/%{srcname}-%{version}.tar.gz
+Source0:        https://github.com/latchset/python-keycloak/archive/%{git_tag}.tar.gz#/%{srcname}-%{version}.tar.gz
 
 BuildArch:      noarch
 
