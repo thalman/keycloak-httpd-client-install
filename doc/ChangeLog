@@ -1,3 +1,7 @@
+2019-11-18  Jakub Hrozek <jhrozek@redhat.com> 1.2
+  * Specfile fix: Own the keycloak-rest binary
+  * Python2 compatibility: Import print() from future to make sure khci works
+    on platforms that only ship python2
 2019-07-03  John Dennis  <jdennis@redhat.com> 1.1
   * Fix github issue 9: doc: Fix a typo in --oidc-redirect-uri description
   * Fix github issue 10: Add a new --oidc-logout-uri command line option
