@@ -99,7 +99,7 @@ class RESTError(Exception):
 class KeycloakREST(object):
 
     def __init__(self, server, auth_role=None, session=None):
-        self.server = server
+        self.server = server.rstrip('/')
         self.auth_role = auth_role
         self.session = session
 
