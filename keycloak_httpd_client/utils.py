@@ -13,6 +13,7 @@ import shutil
 import sys
 import subprocess
 import tempfile
+import requests
 
 import six
 from six.moves.urllib.parse import quote as urlquote
@@ -514,6 +515,19 @@ def normalize_url(url, default_scheme='https'):
         netloc = '%s:%d' % (hostname, port)
 
     return urlunsplit((scheme, netloc, path, query, fragment))
+
+def normalize_keycloak_server_url(url):
+    value = url.rstrip('/')
+    if value.count('/') > 3 or value.endswith('/auth'):
+        return value
+    try:
+        r = requests.get(value + '/auth', allow_redirects=False)
+        if r.status_code < 400:
+            return value + '/auth'
+        else:
+            return value
+    except Exception:
+        return value
 
 # ------------------------------ PEM Utilities --------------------------------
 
