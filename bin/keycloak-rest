@@ -177,6 +177,7 @@ def main():
 
     group.add_argument('-s', '--server',
                        required=True,
+                       type=utils.normalize_keycloak_server_url,
                        help='URL pointing to Keycloak server. '
                        'The URL should look like https://keycloak.example.com or '
                        'for older version of keycloak https://keycloak.example.com/auth')

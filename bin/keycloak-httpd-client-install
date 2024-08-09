@@ -800,6 +800,7 @@ def main():
 
     group.add_argument('-s', '--keycloak-server-url',
                        required=True,
+                       type=utils.normalize_keycloak_server_url,
                        help='Keycloak server URL')
 
     group.add_argument('-a', '--keycloak-auth-role',
