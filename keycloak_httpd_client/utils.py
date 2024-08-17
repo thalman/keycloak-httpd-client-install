@@ -23,7 +23,6 @@ from six.moves.urllib.parse import urlsplit, urlunsplit, urlparse
 from lxml import etree
 
 # -------------------------------- Constants ----------------------------------
-
 DEV_NULL = '/dev/null'
 BIN_TIMEOUT = '/usr/bin/timeout'
 
@@ -33,11 +32,10 @@ LOG_FILE_ROTATION_COUNT = 3
 STEP = logging.INFO + 1
 
 # -------------------------------- Variables ----------------------------------
-
 logger = logging.getLogger(__name__)
 
-# ---------------------------- Logging Utilities ------------------------------
 
+# ---------------------------- Logging Utilities ------------------------------
 def _add_step_logger():
     class StepLogger(logging.Logger):
 
@@ -53,6 +51,7 @@ def _add_step_logger():
 
     logging.addLevelName(STEP, 'STEP')
     logging.setLoggerClass(StepLogger)
+
 
 def configure_logging(options, add_step_logger=False):
     if add_step_logger:
@@ -134,6 +133,7 @@ def configure_logging(options, add_step_logger=False):
 
 # ------------------------------ JSON Utilities -------------------------------
 
+
 def json_pretty(text):
     return json.dumps(json.loads(text),
                       indent=4, sort_keys=True)
@@ -144,6 +144,7 @@ def py_json_pretty(py_json):
 
 
 # ------------------------------ Path Utilities -------------------------------
+
 
 def join_path(*args):
     '''Join each argument into a final path assuring there is
@@ -185,6 +186,7 @@ def join_path(*args):
 
     return path
 
+
 def generate_random_string(n_bits=48):
     '''
     Return a random string to be used as a secret.
@@ -203,6 +205,7 @@ def generate_random_string(n_bits=48):
     n_bits = (n_bits + 3) & ~3
     random_string = '%0*x' % (n_bits >> 2, random.getrandbits(n_bits))
     return random_string
+
 
 try:
     from os.path import commonpath
@@ -241,6 +244,7 @@ except ImportError:
 
         prefix = sep if isabs else sep[:0]
         return prefix + sep.join(common)
+
 
 def is_path_antecedent(ancestor, antecedent):
     'True if antecedent path is below the ancestor path'
@@ -376,7 +380,7 @@ def run_cmd(args, stdin=None, raiseonerr=True,
         logger.debug('Process interrupted')
         p.wait()
         raise
-    except:
+    except Exception:
         logger.debug('Process execution failed')
         raise
     finally:
@@ -444,6 +448,7 @@ def load_data_from_file(filename):
         data = f.read()
     return data
 
+
 def mkdir(pathname, mode=0o775):
     logger.debug('mkdir pathname="%s" mode=%#o', pathname, mode)
     if os.path.exists(pathname):
@@ -460,8 +465,10 @@ def httpd_restart():
 
 # ----------------------------- HTTP Utilities --------------------------------
 
+
 def server_name_from_url(url):
     return urlparse(url).netloc
+
 
 def normalize_url(url, default_scheme='https'):
     '''Assure scheme and port are canonical.
@@ -517,6 +524,7 @@ def normalize_url(url, default_scheme='https'):
 
     return urlunsplit((scheme, netloc, path, query, fragment))
 
+
 def normalize_keycloak_server_url(url):
     value = url.rstrip('/')
     if value.count('/') > 3 or value.endswith('/auth'):
@@ -535,6 +543,7 @@ def normalize_keycloak_server_url(url):
 
 class InvalidBase64Error(ValueError):
     pass
+
 
 pem_headers = {
     'csr': 'NEW CERTIFICATE REQUEST',
@@ -698,6 +707,7 @@ def parse_pem(text, pem_type=None, max_items=None):
 
 # ------------------------- SAML Metadata Utilities ---------------------------
 
+
 def get_sp_assertion_consumer_url(metadata_file, entity_id=None,
                                   binding=None):
     '''Retrieve AssertionConsumerURL(s) from SP metadata
@@ -795,7 +805,6 @@ def get_entity_id_from_metadata(metadata_file, role):
              'authn_authority': 'AuthnAuthorityDescriptor',
              'attr_authority':  'AttributeAuthorityDescriptor',
              'pdp':             'PDPDescriptor'}
-
 
     role_descriptor = roles.get(role)
     if role_descriptor is None:
@@ -902,7 +911,8 @@ def install_mellon_cert(options):
         install_file_from_data(key, options.mellon_dst_key_file)
         install_file_from_data(cert, options.mellon_dst_cert_file)
 
-#---------------------------- Argparse Utilities -------------------------------
+# ---------------------------- Argparse Utilities -------------------------------
+
 
 class DeprecatedStoreAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
@@ -913,6 +923,7 @@ class DeprecatedStoreAction(argparse.Action):
               file=sys.stderr)
         setattr(namespace, self.dest, values)
 
+
 def _argparse_copy_items(items):
     if items is None:
         return []
@@ -922,6 +933,7 @@ def _argparse_copy_items(items):
     if isinstance(items, list):
         return items[:]
     return copy.copy(items)
+
 
 class DeprecatedAppendAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
@@ -934,6 +946,7 @@ class DeprecatedAppendAction(argparse.Action):
         items = _argparse_copy_items(items)
         items.append(values)
         setattr(namespace, self.dest, items)
+
 
 class UniqueNamesAction(argparse.Action):
     '''Store into dest a set of names.
@@ -955,6 +968,7 @@ class UniqueNamesAction(argparse.Action):
     names are split and we can't use nargs because you end up with a set of lists.
     '''
     name_choices = set()
+
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs is not None:
             raise ValueError('nargs not allowed')
@@ -975,6 +989,7 @@ class UniqueNamesAction(argparse.Action):
                     raise argparse.ArgumentError(self, msg % args)
 
             getattr(namespace, self.dest).add(value)
+
 
 class TlsVerifyAction(argparse.Action):
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
