@@ -96,6 +96,7 @@ class RESTError(Exception):
 
 # ------------------------------------------------------------------------------
 
+
 class KeycloakREST(object):
 
     def __init__(self, server, auth_role=None, session=None):
@@ -110,7 +111,6 @@ class KeycloakREST(object):
                      fname, cmd_name, response.status_code, response.reason,
                      response.headers.get('Content-Length'),
                      response.headers.get('Content-Type'))
-
 
     def _log_rest_request(self, cmd_name, url, data=None):
         fname = inspect.stack()[1][3]
@@ -145,7 +145,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -165,7 +165,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -185,7 +185,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -209,7 +209,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.created: # pylint: disable=no-member
+        if response.status_code != requests.codes.created:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -229,7 +229,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.no_content: # pylint: disable=no-member
+        if response.status_code != requests.codes.no_content:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -244,7 +244,7 @@ class KeycloakREST(object):
         response = self.session.get(url)
         self._log_rest_response(cmd_name, response)
 
-        if response.status_code != requests.codes.ok: # pylint: disable=no-member
+        if response.status_code != requests.codes.ok:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response.text, False)
@@ -265,12 +265,11 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
         return response_json
-
 
     def get_client_by_clientid(self, realm_name, clientid):
         cmd_name = 'get clientid "{clientid}" in realm "{realm}"'.format(
@@ -290,7 +289,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         if not isinstance(response_json, list):
@@ -309,7 +308,6 @@ class KeycloakREST(object):
 
         self._log_return_value(response_json[0])
         return response_json[0]
-
 
     def get_client_id_by_clientid(self, realm_name, clientid):
         client = self.get_client_by_clientid(realm_name, clientid)
@@ -333,7 +331,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -357,7 +355,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -381,7 +379,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.ok): # pylint: disable=no-member
+                response.status_code != requests.codes.ok):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -405,7 +403,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.created: # pylint: disable=no-member
+        if response.status_code != requests.codes.created:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -460,7 +458,7 @@ class KeycloakREST(object):
             response_json = None
 
         if (not response_json or
-                response.status_code != requests.codes.created): # pylint: disable=no-member
+                response.status_code != requests.codes.created):  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -469,7 +467,6 @@ class KeycloakREST(object):
     def delete_client_by_clientid(self, realm_name, clientid):
         obj_id = self.get_client_id_by_clientid(realm_name, clientid)
         self.delete_client_by_id(realm_name, obj_id)
-
 
     def delete_client_by_id(self, realm_name, obj_id):
         cmd_name = 'delete client id "{id}"in realm "{realm}"'.format(
@@ -488,7 +485,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.no_content: # pylint: disable=no-member
+        if response.status_code != requests.codes.no_content:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -511,7 +508,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.no_content: # pylint: disable=no-member
+        if response.status_code != requests.codes.no_content:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -526,7 +523,6 @@ class KeycloakREST(object):
         logger.debug('update client attrs: client_id=%s '
                      'new attrs=%s', client_id, client['attributes'])
         self.update_client(realm_name, client)
-
 
     def update_client_attributes_by_clientid(self, realm_name, clientid,
                                              update_attrs):
@@ -574,7 +570,7 @@ class KeycloakREST(object):
         except ValueError:
             response_json = None
 
-        if response.status_code != requests.codes.created: # pylint: disable=no-member
+        if response.status_code != requests.codes.created:  # pylint: disable=no-member
             raise RESTError(cmd_name, response)
 
         self._log_return_value(response_json)
@@ -584,7 +580,6 @@ class KeycloakREST(object):
                                                   mapper):
         client = self.get_client_by_clientid(realm_name, clientid)
         self.create_client_protocol_mapper(realm_name, client, mapper)
-
 
     def add_client_redirect_uris_by_clientid(self, realm_name, clientid, uris):
         client = self.get_client_by_clientid(realm_name, clientid)
@@ -648,7 +643,6 @@ class KeycloakAnonymousConnection(KeycloakREST):
     def __init__(self, server, tls_verify):
         super(KeycloakAnonymousConnection, self).__init__(server, 'anonymous')
         self.session = self._create_session(tls_verify)
-
 
     def _create_session(self, tls_verify):
         session = requests.Session()
