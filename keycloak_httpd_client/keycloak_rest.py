@@ -629,11 +629,11 @@ class KeycloakAdminConnection(KeycloakREST):
                                     'client_id': self.client_id})
 
         session.verify = tls_verify
-        token = session.fetch_token(token_url=token_url,
-                                    username=self.username,
-                                    password=self.password,
-                                    client_id=self.client_id,
-                                    verify=session.verify)
+        session.fetch_token(token_url=token_url,
+                            username=self.username,
+                            password=self.password,
+                            client_id=self.client_id,
+                            verify=session.verify)
 
         return session
 
