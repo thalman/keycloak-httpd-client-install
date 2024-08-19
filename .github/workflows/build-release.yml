@@ -46,3 +46,27 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
+
+  build-el-rpm:
+    runs-on: ubuntu-latest
+    container: rockylinux:9
+    needs: create-archive
+    steps:
+      - name: Download tar
+        uses: actions/download-artifact@v4
+        with:
+          name: tar
+      - name: Build rpm
+        run: |
+          set -x
+          dnf -y install rpm-build python3-devel python3-setuptools
+          rpmbuild -D "_rpmdir $(pwd)/rpmbuild" -ta keycloak-httpd-client-install-*.tar.gz
+          find ./rpmbuild -name '*.rpm' -exec mv {} ./ \;
+      - name: Upload rpms release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: "./*.rpm"
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
