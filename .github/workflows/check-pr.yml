@@ -8,7 +8,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Python environment
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
       - name: Run flake8
         uses: py-actions/flake8@v2
         with:
@@ -28,7 +30,7 @@ jobs:
           git archive --format=tar.gz --prefix=keycloak-httpd-client-install-$APP_VERSION/ HEAD >keycloak-httpd-client-install-$APP_VERSION.tar.gz
           echo "APP_VERSION=$APP_VERSION" >> "$GITHUB_ENV"
       - name: Upload tar archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tar
           path: keycloak-httpd-client-install-*.tar.gz
@@ -40,7 +42,7 @@ jobs:
     needs: create-archive
     steps:
       - name: Download tar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: tar
       - name: Build rpm
@@ -50,7 +52,7 @@ jobs:
           rpmbuild -D "release_string $GITHUB_SHA" -D "_rpmdir $(pwd)/rpmbuild" -ta keycloak-httpd-client-install-*.tar.gz
           find ./rpmbuild -name '*.rpm' -exec mv {} ./ \;
       - name: Upload rpms
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fedora-rpms
           path: "*.rpm"
@@ -62,7 +64,7 @@ jobs:
     needs: create-archive
     steps:
       - name: Download tar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: tar
       - name: Build rpm
@@ -72,7 +74,7 @@ jobs:
           rpmbuild -D "release_string $GITHUB_SHA" -D "_rpmdir $(pwd)/rpmbuild" -ta keycloak-httpd-client-install-*.tar.gz
           find ./rpmbuild -name '*.rpm' -exec mv {} ./ \;
       - name: Upload rpms
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: el-rpms
           path: "*.rpm"
