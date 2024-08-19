@@ -25,3 +25,4 @@ modules and authentication protocols:
 |-----------------------|----------------|
 | mod_auth_mellon       | SAML2          |
 | mod_auth_openidc      | OpenID Connect |
+kuk
