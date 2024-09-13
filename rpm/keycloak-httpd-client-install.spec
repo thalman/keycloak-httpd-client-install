@@ -12,7 +12,7 @@
 %endif
 
 Name:           %{srcname}
-Version:        1.2
+Version:        1.3
 Release:        %{?release_string}%{!?release_string: 1}%{?dist}
 Summary:        %{summary}
 
