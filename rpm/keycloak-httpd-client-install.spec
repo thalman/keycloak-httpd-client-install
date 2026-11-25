@@ -13,9 +13,6 @@ Source0:        https://github.com/lachset/keycloak-httpd-client-install/release
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-%generate_buildrequires
-%pyproject_buildrequires
-
 Requires:       %{_bindir}/keycloak-httpd-client-install
 
 %description
@@ -38,6 +35,9 @@ of a Keycloak server.
 
 %prep
 %autosetup -n %{srcname}-%{version} -p1
+
+%generate_buildrequires
+%pyproject_buildrequires
 
 %build
 %pyproject_wheel
